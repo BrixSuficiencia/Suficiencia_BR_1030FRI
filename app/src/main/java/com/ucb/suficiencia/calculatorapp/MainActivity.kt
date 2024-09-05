@@ -13,6 +13,7 @@ class MainActivity : AppCompatActivity() {
     private var operator = ""
     private var isOperatorPressed = false
     private var isResultDisplayed = false
+    private var hasDecimal = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<View>(R.id.btn7).setOnClickListener { appendNumber("7") }
         findViewById<View>(R.id.btn8).setOnClickListener { appendNumber("8") }
         findViewById<View>(R.id.btn9).setOnClickListener { appendNumber("9") }
-        findViewById<View>(R.id.btnDot).setOnClickListener { appendNumber(".") }
+        findViewById<View>(R.id.btnDot).setOnClickListener { appendDecimal() }
 
         // Clear button
         findViewById<View>(R.id.btnClear).setOnClickListener { clearScreen() }
@@ -50,8 +51,11 @@ class MainActivity : AppCompatActivity() {
             tvDisplay!!.text = value
             isOperatorPressed = false
             isResultDisplayed = false
+            hasDecimal = false // Reset decimal flag when starting a new number
         } else {
             val currentText = tvDisplay!!.text.toString()
+            if (currentText.length >= 15) return // Limit input length
+
             if (currentText != "0") {
                 tvDisplay!!.text = currentText + value
             } else {
@@ -60,31 +64,66 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun appendDecimal() {
+        val currentText = tvDisplay!!.text.toString()
+
+        // Prevent multiple decimals in the same number
+        if (hasDecimal || currentText.length >= 15) return
+
+        if (isOperatorPressed || isResultDisplayed) {
+            tvDisplay!!.text = "0."
+            isOperatorPressed = false
+            isResultDisplayed = false
+        } else {
+            if (currentText == "") {
+                tvDisplay!!.text = "0."
+            } else {
+                tvDisplay!!.text = currentText + "."
+            }
+        }
+        hasDecimal = true
+    }
+
     private fun setOperator(op: String) {
+        val currentText = tvDisplay!!.text.toString()
+        if (currentText == "." || currentText.isEmpty()) return // Prevent operator after just a "."
+
         if (operator.isNotEmpty()) {
             calculateResult()
         }
         firstNum = tvDisplay!!.text.toString().toDouble()
         operator = op
         isOperatorPressed = true
+        hasDecimal = false // Reset decimal flag for next input
     }
 
     private fun calculateResult() {
         if (operator.isEmpty()) return
 
         secondNum = tvDisplay!!.text.toString().toDouble()
+
         val result = when (operator) {
             "+" -> firstNum + secondNum
             "-" -> firstNum - secondNum
             "*" -> firstNum * secondNum
-            "/" -> firstNum / secondNum
+            "/" -> {
+                if (secondNum == 0.0) {
+                    clearScreen() // Clear on division by zero
+                    tvDisplay!!.text = "Error"
+                    return
+                } else {
+                    firstNum / secondNum
+                }
+            }
             else -> 0.0
         }
+
         val df = DecimalFormat("#.##")
         tvDisplay!!.text = df.format(result)
         firstNum = df.format(result).toDouble()
         operator = ""
         isResultDisplayed = true
+        hasDecimal = tvDisplay!!.text.contains(".") // Retain decimal state for next input
     }
 
     private fun clearScreen() {
@@ -94,5 +133,6 @@ class MainActivity : AppCompatActivity() {
         operator = ""
         isOperatorPressed = false
         isResultDisplayed = false
+        hasDecimal = false
     }
 }
