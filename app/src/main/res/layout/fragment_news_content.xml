@@ -1,16 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginLeft="40dp"
+    android:layout_marginRight="40dp"
+    android:padding="8dp"
+    android:background="#F0F0F0"
+    android:layout_marginBottom="8dp"
+    android:elevation="4dp">
 
+    <!-- Image at the top -->
+    <ImageView
+        android:id="@+id/news_content_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:contentDescription="News image"
+        android:layout_marginBottom="16dp"
+        android:background="#E0E0E0"
+    />
+
+    <!-- Text below the image -->
     <TextView
         android:id="@+id/news_content_text"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="News Content"
-        android:textSize="36sp"
-        android:textStyle="bold"
+        android:textSize="18sp"
         android:textColor="@android:color/black"
         android:fontFamily="sans-serif-condensed"
-        android:layout_gravity="center"/>
-</FrameLayout>
+        android:padding="16dp"
+        android:background="#E0E0E0"
+        android:justificationMode="inter_word"
+    />
+
+</LinearLayout>

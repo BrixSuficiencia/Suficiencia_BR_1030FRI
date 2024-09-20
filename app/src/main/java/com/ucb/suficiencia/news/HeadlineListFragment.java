@@ -12,7 +12,13 @@ public class HeadlineListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String[] headlines = {"Headline 1", "Headline 2", "Headline 3"};
+
+        // Example headlines
+        String[] headlines = {
+                "Breaking News: Market Hits All-Time High",
+                "Local Man Gets Hit by Truck, Wakes Up in Fantasy World",
+                "Teen Accidentally Summons Dragon While Doing Homework"
+        };
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
                 R.layout.headline_list_item, R.id.headline_text, headlines);
