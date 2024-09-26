@@ -1,0 +1,33 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_first"
+        android:icon="@android:drawable/ic_menu_agenda"
+        android:tint="@color/black"
+        android:title="First Menu"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_dialog"
+        android:icon="@android:drawable/ic_dialog_info"
+        android:tint="@color/black"
+        android:title="Open Dialog"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_sub"
+        android:icon="@android:drawable/ic_menu_more"
+        android:tint="@color/black"
+        android:title="More"
+        app:showAsAction="ifRoom">
+
+        <menu>
+            <item
+                android:id="@+id/menu_exit"
+                android:icon="@android:drawable/ic_menu_close_clear_cancel"
+                android:title="Exit"
+                app:showAsAction="never" />
+        </menu>
+    </item>
+</menu>
